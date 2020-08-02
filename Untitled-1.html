@@ -1,0 +1,206 @@
+<!DOCTYPE html> 
+<html> 
+
+<body> 
+<center>
+<canvas id="tela" width="340" height="620"> 
+ </canvas> 
+
+ <script>
+ 
+var jogador; 
+var direita = false ; 
+var esquerda = false ;
+var cima = false ; 
+var baixo = false ; 
+var obstaculo = []; 
+var numObstaculos = 0; 
+ 
+  jogador = new Jogador(); 
+ 
+ window.onload = function(){
+	tela = document.getElementById('tela');
+	contexto = tela.getContext('2d'); 
+	setInterval(function () {criadorObstaculo();} , 3000);
+	setInterval(function(){Desenhar(), Jogador()
+	; },1000/30 );
+	
+	
+	document.addEventListener('keyup',jogador_para);
+	document.addEventListener('keydown',jogador_anda);
+	
+} 
+ 
+ 
+
+ //JOGADOR 
+  
+ 
+ 
+ 
+ 
+ 
+ function Jogador (){
+ 
+	this.jogX = 170;
+	this.jogY = 570;
+	this.raioJogador = 5; 
+ 
+	this.desenharJogador = function(){
+		console.log;("nao sei"); 
+		contexto.fillStyle='yellow';
+		contexto.beginPath();  
+		contexto.arc(this.jogX,this.jogY,this.raioJogador,0,Math.PI*2,true);
+		contexto.fill();
+	}
+ 
+ 
+ 
+ 
+ 
+ this.calcularJogador = function(){
+
+	if (direita) jogador.jogX += 5;
+	else if (esquerda) jogador.jogX -= 5;
+	if (cima) jogador.jogY -= 5;
+	else if (baixo) jogador.jogY += 5;
+	if (jogador.jogY <= 0) jogador.jogX = 0;
+	//if ((jogX + LARGURA_JOGADOR) >= tela.width) jogX = tela.width - LARGURA_JOGADOR;
+	if (jogador.jogY <= 0) jogador.jogY = 0;
+	//if ((jogY + ALTURA_JOGADOR) >= tela.height) jogY = tela.height - ALTURA_JOGADOR;
+ 
+ }
+ 
+	}
+ 
+ 
+ 
+ 
+ function jogador_para(evt){
+ if (evt.keyCode == 39) direita = false;
+ else if (evt.keyCode == 37) esquerda = false;
+ if (evt.keyCode == 38) cima = false;
+ else if (evt.keyCode == 40) baixo = false;
+}
+ function jogador_anda(evt){
+ if (evt.keyCode == 39) direita = true;
+  else if (evt.keyCode == 37) esquerda = true;
+  if (evt.keyCode == 38) cima = true;
+  else if (evt.keyCode == 40) baixo = true;
+
+ }
+ 
+ //-------------------------------------------------------------------------------------------
+ 
+ 
+ 
+ 
+ //OBSTACULOS
+ 
+ function Obstaculo (){ 
+ 
+	this.numObstaculo = Math.floor((Math.random() * 4) + 1);
+	console.log(this.numObstaculo); 
+ 
+ 
+ 
+ 
+	this.Obx = Math.floor((Math.random() * 300) + 1);; 
+	this.Oby = 0; 
+	
+	this.desenharObstaculo = function(){
+		this.movimentoObstaculo(); 
+		contexto.fillStyle = 'white'; 
+		contexto.fillRect (this.Obx,this.Oby,5,100); 
+		contexto.fillStyle = 'white'; 
+		contexto.fillRect (this.Obx + 30,this.Oby,5,100); 
+ 
+ }
+ 
+ 
+ 
+ 
+ this.movimentoObstaculo = function(){ 
+ 
+	this.Oby += 4; 
+	
+ }
+ 
+ }
+ 
+ function criadorObstaculo(){
+
+	obstaculo[numObstaculos] = new Obstaculo(); 
+ 	obstaculo[numObstaculos].jogX = Math.floor((Math.random() * 300) + 1);
+	
+	numObstaculos++; 
+	
+	
+ 
+ } 
+ 
+ function Obstaculo1(){
+ 
+ contexto.fillStyle = 'white'; 
+		contexto.fillRect (this.Obx,this.Oby,5,100); 
+		contexto.fillStyle = 'white'; 
+		contexto.fillRect (this.Obx + 30,this.Oby,5,100); 
+ }
+ 
+//-------------------------------------------------------------------------------------------
+ 
+ 
+ 
+ 
+ 
+ function Desenhar(){
+	 
+	contexto.fillStyle = 'black';
+	contexto.fillRect (0,0,tela.width,tela.height);
+	 
+	 jogador.calcularJogador(); 
+	 jogador.desenharJogador();  
+	 
+	 for (var i=0; i<numObstaculos; i++)
+	   obstaculo[i].desenharObstaculo(); 
+
+	 
+	
+	
+	 
+ }
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ </script>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ </body>
+</head> 
+</html> 
+
+
+
+
+
