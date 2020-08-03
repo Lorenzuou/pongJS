@@ -3,17 +3,25 @@
         var jog; 
         var cima = false; 
         var baixo = false; 
+        var intervalo; 
         
-        
+
+
+        var intervaloF = () => { 
+            
+            
+            intervalo = setInterval(() => { 
+            calcular(); 
+            desenhar(); 
+         },1000/60);   
+           
+        } 
+
         window.onload = function(){ 
             tela = document.getElementById("tela"); 
             contexto = tela.getContext('2d'); 
             iniciarGame(); 
-
-            setInterval(() => { 
-               calcular(); 
-               desenhar(); 
-            },1000/60);           
+                   
             document.addEventListener('keyup',jogador_para);
             document.addEventListener('keydown',jogador_anda);
     
@@ -21,7 +29,17 @@
 
        
        
-       
+       function desenharBackGround(){ 
+
+      
+        contexto.setLineDash([3,6]);
+        contexto.beginPath(); 
+        contexto.moveTo(tela.width/2,0);
+        contexto.lineTo(tela.width/2,tela.height);
+        contexto.strokeStyle = "white";
+        contexto.stroke();
+
+       }
        
        
        
@@ -45,6 +63,7 @@
         function desenhar(){ 
             contexto.fillStyle = "black";
             contexto.fillRect(0,0,tela.width,tela.height); 
+            desenharBackGround();
             jog.desenharJogador(); 
             jog2.desenharJogador();
             bola.desenharBola();
@@ -101,7 +120,7 @@
 
 
         function iniciarGame(){ 
-            
+            intervaloF();
             jog = new Jogador(50,30); 
             jog2 = new Jogador(tela.width - 56,30); 
             bola = new Bola();
@@ -188,7 +207,22 @@
                 bola = new Bola();
                 
                 this.desenharPlacar();
-
+                //verificar se alguém ganhou a partida
+                if(this.jog1Placar > 4){
+          
+                    alert("Player 1 ganhou!!");
+                    clearInterval(intervalo);
+                    this.jog1Placar = 0;
+                    this.jog2Placar = 0; 
+                    intervaloF();
+                }
+                if(this.jog2Placar > 4){
+                    alert("Player 2 ganhou!!"); 
+                    clearInterval(intervalo);
+                    this.jog1Placar = 0;
+                    this.jog2Placar = 0; 
+                    intervaloF();
+                }
             
             }
 
